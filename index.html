@@ -241,6 +241,16 @@ As an API consumer, `java.lang.NullPointerException` isn't very useful.
           </section>
 
           <section data-markdown>
+So we had to ask for help...
+          </section>
+
+          <section data-markdown>
+Since there's absolutely no available documentation, I had to contact the client via email to ask for help from the API vendor.
+
+It took three days and 7 emails to get the a person who was able to provide a working example request..
+          </section>
+
+          <section data-markdown>
 ```xml
 &lt;ns1:lookupMember&gt;
     &lt;request&gt;
@@ -248,7 +258,7 @@ As an API consumer, `java.lang.NullPointerException` isn't very useful.
     &lt;/request&gt;
 &lt;/ns1:lookupMember&gt;
 ```
-This works!
+But the example worked!
           </section>
 
           <section data-markdown>
@@ -262,6 +272,11 @@ This works!
     &lt;BirthDate&gt;1988-01-01&lt;/BirthDate&gt;
 &lt;/return&gt;
 ```
+          </section>
+
+
+          <section data-markdown>
+### Problem #6: Hard to get help
           </section>
         </section>
 
@@ -299,7 +314,7 @@ Now I need to do another getMember request to actually fetch the generated UUID 
           </section>
 
           <section data-markdown>
-### Problem #6: Chatty APIs
+### Problem #7: Chatty APIs
 
 Chatty APIs require you to send multiple requests synchronously to achieve simple CRUD tasks.
           </section>
@@ -399,7 +414,7 @@ LookupMember response looked like this
           </section>
 
           <section data-markdown>
-### Problem #7: Inconsistent API responses
+### Problem 8: Inconsistent API responses
 
 Handling inconsistent responses in your code is a nightmare.
           </section>
@@ -464,7 +479,7 @@ Well it works, but that's kind of a weird data structure.
           </section>
 
           <section data-markdown>
-### Problem #8: Properties as an array
+### Problem #9: Properties as an array
 
 This is a Pet Peeve. I hate parsing these in my API consumer code.
           </section>
@@ -621,21 +636,31 @@ Also see: Wikipedia, List of HTTP status codes
           </section>
 
           <section data-markdown>
-### #5 Avoid making chatty APIs
+### #5 Make it easy to get help
+          </section>
+
+          <section data-markdown>
+### #6 Avoid making chatty APIs
 
 Does your API serve its purpose in as few requests as possible?
           </section>
 
           <section data-markdown>
-### #6 Keep your API responses consistent
+### #7 Keep your API responses consistent
 
 Wrap your response in objects and name your resources consistently.
           </section>
 
           <section data-markdown>
-### #7 Simple data structures.
+### #8 Simple data structures.
 
 Don't overcomplicate things with unnecessary nesting and arrays.
+          </section>
+
+          <section data-markdown>
+### Make it easy to get help
+
+
           </section>
         </section>
 
