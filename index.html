@@ -66,7 +66,7 @@ So basically solving business problems using RESTful APIs
 
         <section>
           <section data-markdown>
-## Why talk about shitty APIs?
+## Why talk about bad APIs?
           </section>
 
           <section data-markdown>
@@ -407,37 +407,190 @@ Handling inconsistent responses in your code is a nightmare.
 
         <section>
           <section data-markdown>
+### Ok, time to look at another API.
 
-        </section>
+Can't be as bad as the SOAP one...
+          </section>
 
           <section data-markdown>
-Why would you do this?
+"It's a REST API".
+
+--
+
+They probably mean a RESTful by that...
+          </section>
+
+          <section data-markdown>
+They even have OpenAPI (Swagger) documentation.
+
+This is awesome!
+          </section>
+
+          <section>
+            <h3>I can use Swagger UI to explore!</h3>
+            <iframe width="100%" height="500px" src="http://petstore.swagger.io/"></iframe>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+### Let's explore
+
+How about...
+
+GET /pet/1
+          </section>
+
+          <section data-markdown>
+### 200 - OK
 ```
 {
-  "name": "John",
+  "id": 1,
+  "name": "Lassie"
   "properties": [
     {
       "name": "age",
-      "value": "30"
+      "value": "2"
+    },
+    {
+      "name": "gender",
+      "value": "female,
+    }
+  ]
+}
+```
+
+Well it works, but that's kind of a weird data structure.
+          </section>
+
+          <section data-markdown>
+### Problem #8: Properties as an array
+
+This is a Pet Peeve. I hate parsing these in my API consumer code.
+          </section>
+
+          <section data-markdown>
+Why do this?
+
+```
+{
+  "id": 1,
+  "name": "Lassie"
+  "properties": [
+    {
+      "name": "age",
+      "value": "2"
     }
   ]
 }
 ```
           </section>
+
           <section data-markdown>
 If you can just do this
+
 ```
 {
-  "name": "John",
-  "age": 30,
+  "name": "Lassie",
+  "age": 2,
 }
 
 ```
           </section>
         </section>
 
-        <section data-markdown>
+        <section>
+          <section data-markdown>
+### Moving on...
+          </section>
+
+          <section data-markdown>
+`POST /pet`
+
+Payload:
+
+```
+{
+  "name": "Garfield",
+  "age": 6,
+  "gender": "male"
+}
+```
+          </section>
+
+          <section data-markdown>
+### 200 OK
+
+```
+{
+  "status": "QUEUED",
+  "uuid": "bdad5485-56db-4e83-960b-63c7050701ec",
+}
+```
+
+Huh?
+          </section>
+
+          <section data-markdown>
+What happened to Garfield?
+
+Which ID did he receive?
+          </section>
+
+          <section data-markdown>
+Looks like I need to use `GET /pet-queue/{uuid}` to see what happened...
+          </section>
+
+          <section data-markdown>
+```
+{
+  "status": "JOB_QUEUED",
+  "uuid": "bdad5485-56db-4e83-960b-63c7050701ec",
+}
+```
+
+Great. A *really* chatty API.
+
+Now I need to poll this endpoint until the insert has finished...
+          </section>
+
+          <section data-markdown>
+15 minutes of polling later...
+```
+{
+  "status": "JOB_DONE",
+  "uuid": "bdad5485-56db-4e83-960b-63c7050701ec",
+  "result": {
+    "pet_id": 2
+  }
+}
+```
+          </section>
+
+          <section data-markdown>
+### `GET /pet/2`
+
+```
+{
+  "id": 2,
+  "name": "Garfield"
+  "properties": [
+    {
+      "name": "age",
+      "value": "6"
+    },
+    {
+      "name": "gender",
+      "value": "male,
+    }
+  ]
+}
+```
+
+At least it worked, but was all that really necessary?
+          </section>
         </section>
+
 			</div>
 
 		</div>
