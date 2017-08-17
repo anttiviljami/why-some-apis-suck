@@ -51,15 +51,15 @@
 
 [@anttiviljami](http://twitter.com/anttiviljami)
 
-- Anti-#digitalist
-- Forbes featured Hacker
-- "Security Expert"
+- Anti-digitalist
+- "Forbes featured Hacker"
+- APIs, Open Source @Futurice
           </section>
 
           <section data-markdown>
-### Microservice architecture for Kesko Oyj
+### Microservices for Kesko Oyj
 
-So basically solving business problems using RESTful APIs
+Hiding hard business problems behind simple APIs
           </section>
 
         </section>
@@ -94,15 +94,11 @@ But mostly it helps you avoid common mistakes.
 
         <section>
           <section data-markdown>
-"We have these 3rd party APIs but we would like you to build abstraction on top of them"
-
---
-
-Suspicious?
+"We have these APIs for 3rd party services but we would like you to build new ones on top of those."
           </section>
 
           <section data-markdown>
-Can't be that bad, right? Just integrations.
+Can't be that bad, right? Just integrations. Probably some orchestration logic.
           </section>
         </section>
 
@@ -146,7 +142,7 @@ Wait. I can't see the WSDL? I thought this was a SOAP api?
 
           <section data-markdown>
 ### Problem #2
-Turns out the API is behind a gateway that doesn't support WSDL.
+Turns out the API is behind a gateway product that doesn't fully support SOAP, so no WSDL for us.
           </section>
 
           <section data-markdown>
@@ -175,7 +171,9 @@ Target namespace already in use by another Schema
           <section data-markdown>
 ### Problem #3
 
-The WSDL file doesn't work with my SOAP client library.
+The WSDL file doesn't work with my SOAP client.
+
+(or any other client that I could find)
           </section>
 
           <section data-markdown>
@@ -188,7 +186,7 @@ The WSDL file doesn't work with my SOAP client library.
           <section data-markdown>
 ### Solution:
 
-Let's just merge the elements dynamically before reading the WSDL.
+Let's just merge the elements manually.
 
 ```
 &lt;xs:schema targetNamespace="http://someschema.org/schema" ...&gt;
@@ -247,7 +245,11 @@ So we had to ask for help...
           <section data-markdown>
 Since there's absolutely no available documentation, I had to contact the client via email to ask for help from the API vendor.
 
-It took three days and 7 emails to get the a person who was able to provide a working example request..
+It took three days and 7 emails to get to the person who was able to provide proof of a working example request..
+          </section>
+
+          <section data-markdown>
+### Problem #6: Hard to get help
           </section>
 
           <section data-markdown>
@@ -259,6 +261,8 @@ It took three days and 7 emails to get the a person who was able to provide a wo
 &lt;/ns1:lookupMember&gt;
 ```
 But the example worked!
+
+(Only the root element supports namespacing in this API)
           </section>
 
           <section data-markdown>
@@ -272,11 +276,6 @@ But the example worked!
     &lt;BirthDate&gt;1988-01-01&lt;/BirthDate&gt;
 &lt;/return&gt;
 ```
-          </section>
-
-
-          <section data-markdown>
-### Problem #6: Hard to get help
           </section>
         </section>
 
@@ -353,17 +352,17 @@ redan en person med e-post john@email.com&lt;/faultstring&gt;
           </section>
 
           <section data-markdown>
-### Problem #5 Again: Bad Error Messages
+### Problem #5 (again): Bad Error Messages
 
-Suddenly, Swedish error messages?!?
+Swedish error messages, really?!?
           </section>
 
           <section data-markdown>
-Please stick to (machine) readable US English error messages
+Machine readable error messages, and preferably US English descriptions would be nice...
           </section>
 
           <section data-markdown>
-### Thank God for pakkoruotsi...
+### Pakkoruotsi FTW
           </section>
         </section>
 
@@ -424,15 +423,11 @@ Handling inconsistent responses in your code is a nightmare.
           <section data-markdown>
 ### Ok, time to look at another API.
 
-Can't be as bad as the SOAP one...
+Can't be as bad as the previous one...
           </section>
 
           <section data-markdown>
 "It's a REST API".
-
---
-
-They probably mean a RESTful by that...
           </section>
 
           <section data-markdown>
@@ -465,10 +460,12 @@ GET /pet/1
   "properties": [
     {
       "name": "age",
+      "type": "integer",
       "value": "2"
     },
     {
       "name": "gender",
+      "type": "enum",
       "value": "female,
     }
   ]
@@ -479,7 +476,7 @@ Well it works, but that's kind of a weird data structure.
           </section>
 
           <section data-markdown>
-### Problem #9: Properties as an array
+### Problem #9: Bad models
 
 This is a Pet Peeve. I hate parsing these in my API consumer code.
           </section>
@@ -494,6 +491,7 @@ Why do this?
   "properties": [
     {
       "name": "age",
+      "type": "integer",
       "value": "2"
     }
   ]
@@ -506,6 +504,7 @@ If you can just do this
 
 ```
 {
+  "id": 1,
   "name": "Lassie",
   "age": 2,
 }
@@ -564,45 +563,83 @@ Looks like I need to use `GET /pet-queue/{uuid}` to see what happened...
 }
 ```
 
-Great. A *really* chatty API.
+Great. A *really* chatty async API.
 
 Now I need to poll this endpoint until the insert has finished...
           </section>
 
           <section data-markdown>
-15 minutes of polling later...
+a couple of minutes of polling later...
 ```
 {
   "status": "JOB_DONE",
   "uuid": "bdad5485-56db-4e83-960b-63c7050701ec",
   "result": {
-    "pet_id": 2
+    "pet_id": 50232
   }
 }
 ```
           </section>
 
           <section data-markdown>
-### `GET /pet/2`
+### `GET /pet/50232`
 
 ```
 {
-  "id": 2,
+  "id": 50232,
   "name": "Garfield"
   "properties": [
     {
       "name": "age",
+      "type": "integer"
       "value": "6"
     },
     {
       "name": "gender",
-      "value": "male,
+      "type": "enum",
+      "value": "male
     }
   ]
 }
 ```
 
-At least it worked, but was all that really necessary?
+At least it worked, but why does this operation need to be async?
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+### Let's list some pets
+          </section>
+
+          <section data-markdown>
+### `GET /pets`
+          </section>
+
+          <section data-markdown>
+...
+          </section>
+
+          <section data-markdown>
+```
+Gateway error HTTP 504: Connection to backend timed out
+```
+          </section>
+
+          <section data-markdown>
+Remember the id we got for our pet?
+
+```
+"id": 50232
+```
+          </section>
+
+          <section data-markdown>
+Turns out if you don't specify an `?limit=` param, the API will just try to list all 50k entities in its database.
+          </section>
+
+          <section data-markdown>
+### Problem 9: Missing pagination
           </section>
         </section>
 
@@ -622,7 +659,7 @@ Provide executable examples that users can type directly into their terminals to
           </section>
 
           <section data-markdown>
-### #2 Describe your API with standards like WSDL and swagger.json
+### #2 Describe your API using standards like WSDL and OpenAPI spec (swagger)
           </section>
 
           <section data-markdown>
@@ -652,15 +689,9 @@ Wrap your response in objects and name your resources consistently.
           </section>
 
           <section data-markdown>
-### #8 Simple data structures.
+### #8 Simple models.
 
 Don't overcomplicate things with unnecessary nesting and arrays.
-          </section>
-
-          <section data-markdown>
-### Make it easy to get help
-
-
           </section>
         </section>
 
