@@ -127,7 +127,7 @@ Cool! I know SOAP
           <section data-markdown>
 ... No API docs available.
 
-SOAP APIs are self-documenting!
+but SOAP APIs are self-documenting!
           </section>
 
           <section data-markdown>
@@ -641,7 +641,10 @@ Remember the id we got for our pet?
           </section>
 
           <section data-markdown>
-Turns out if you don't specify an `?limit=` param, the API will just try to list all 50k entities in its database.
+### Solution:
+
+Turns out if you don't specify a `?limit=`
+query param, the API will just try to list all 50k entities in its database.
           </section>
 
           <section data-markdown>
@@ -698,6 +701,12 @@ Wrap your response in objects and name your resources consistently.
 ### #8 Simple models.
 
 Don't overcomplicate things with unnecessary nesting and arrays.
+          </section>
+
+          <section data-markdown>
+### #9 Paginate properly
+
+It's probably good not to provide endpoints that will crash your service if improperly used
           </section>
         </section>
 
