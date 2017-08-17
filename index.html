@@ -104,14 +104,10 @@ But mostly it helps you avoid common mistakes.
           </section>
 
           <section data-markdown>
-Can't be that bad, right? Just integrations. Probably some orchestration logic.
+Can't be that bad, right?
+
+Just integrations. Probably some orchestration logic.
           </section>
-        </section>
-
-        <section data-markdown>
-So what did we find?
-        </section>
-
         </section>
 
         <section>
@@ -360,11 +356,11 @@ redan en person med e-post john@email.com&lt;/faultstring&gt;
           <section data-markdown>
 ### Problem #5 (again): Bad Error Messages
 
-Swedish error messages, really?!?
+Error messages in swedish?!?
           </section>
 
           <section data-markdown>
-Machine readable error messages, and preferably US English descriptions would be nice...
+Machine readable error messages, and preferably US english descriptions would be nice...
           </section>
 
           <section data-markdown>
@@ -434,10 +430,12 @@ Can't be as bad as the previous one...
 
           <section data-markdown>
 "It's a REST API".
+
+Hint: It's never a REST API
           </section>
 
           <section data-markdown>
-They even have OpenAPI (Swagger) documentation.
+They have OpenAPI (Swagger) documentation.
 
 This is awesome!
           </section>
@@ -662,27 +660,34 @@ query param, the API will just try to list all 50k entities in its database.
           </section>
 
           <section data-markdown>
-### #1 Document your API with examples
+### #1 The world is full of shitty APIs
 
-Provide executable examples that users can type directly into their terminals to see working API calls.
+Just don't make more.
           </section>
 
           <section data-markdown>
-### #2 Describe your API using standards like WSDL and OpenAPI spec (swagger)
+
+### #2 Have examples
+
+Provide executable examples users can type directly into their terminals to see working API calls.
           </section>
 
           <section data-markdown>
-### #3 Return appropriate HTTP status codes
+### #3 Describe your API using standards
+
+GraphQL, Swagger, RAML, Blueprint. Even WSDL if you're a SOAP kind of person
+          </section>
+
+          <section data-markdown>
+### #4 Return appropriate HTTP status codes
 
 Also see: Wikipedia, List of HTTP status codes
           </section>
 
           <section data-markdown>
-### #4 Generate useful structured error messages
-          </section>
+### #5 Generate useful structured error messages
 
-          <section data-markdown>
-### #5 Make it easy to get help
+Also helps if your API speaks a language I speak.
           </section>
 
           <section data-markdown>
@@ -698,15 +703,25 @@ Wrap your response in objects and name your resources consistently.
           </section>
 
           <section data-markdown>
-### #8 Simple models.
+### #8 Simple models
 
 Don't overcomplicate things with unnecessary nesting and arrays.
+
+Use standard schema.org models if possible.
           </section>
 
           <section data-markdown>
 ### #9 Paginate properly
 
 It's probably good not to provide endpoints that will crash your service if improperly used
+          </section>
+
+          <section data-markdown>
+### #10 Make it easy to get help
+
+Remember, you're building the API for a human, not a software client.
+
+(Yes, developers are people too)
           </section>
         </section>
 
